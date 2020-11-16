@@ -1,4 +1,6 @@
-﻿namespace Microsoft.Dafny.LanguageServer.Language {
+﻿using System.Linq;
+
+namespace Microsoft.Dafny.LanguageServer.Language {
   /// <summary>
   /// Base syntax tree visitor implementation that visits all nodes.
   /// </summary>
@@ -116,7 +118,9 @@
       foreach(var ensurement in function.Ens) {
         Visit(ensurement);
       }
-      Visit(function.Decreases);
+      // TODO Decreases contains nodes duplicated from the function's
+      //      body if dafny inferred them.
+      //Visit(function.Decreases);
       VisitNullableExpression(function.Body);
     }
 
@@ -182,6 +186,9 @@
         break;
       case PrintStmt printStatement:
         Visit(printStatement);
+        break;
+      case CalcStmt calculateStatement:
+        Visit(calculateStatement);
         break;
       default:
         VisitUnknown(statement, statement.Tok);
@@ -365,6 +372,16 @@
       VisitNullableAttributes(printStatement.Attributes);
       foreach(var argument in printStatement.Args) {
         Visit(argument);
+      }
+    }
+
+    public virtual void Visit(CalcStmt calculateStatement) {
+      VisitNullableAttributes(calculateStatement.Attributes);
+      var lines = calculateStatement.Lines;
+      // The last line is a dummy/placeholder that is duplicate of its predecessor.
+      // Therefore, we skip it to avoid visiting the same sub-tree twice.
+      foreach(var line in lines.Take(lines.Count - 1)) {
+        Visit(line);
       }
     }
 
