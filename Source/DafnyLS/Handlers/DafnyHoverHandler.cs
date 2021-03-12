@@ -26,14 +26,9 @@ namespace Microsoft.Dafny.LanguageServer.Handlers {
 
     public override Task<Hover> Handle(HoverParams request, CancellationToken cancellationToken) {
       _logger.LogTrace("received hover request for {}", request.TextDocument);
-      DafnyDocument? textDocument;
-      if(!_documents.TryGetDocument(request.TextDocument, out textDocument)) {
-        _logger.LogWarning("the document {} is not loaded", request.TextDocument);
-        return Task.FromResult(new Hover());
-      }
-
+      var document = _documents.GetDocument(request.TextDocument);
       ILocalizableSymbol? symbol;
-      if(!textDocument.SymbolTable.TryGetSymbolAt(request.Position, out symbol)) {
+      if(!document.SymbolTable.TryGetSymbolAt(request.Position, out symbol)) {
         _logger.LogDebug("no symbol was found at {} in {}", request.Position, request.TextDocument);
         return Task.FromResult(new Hover());
       }

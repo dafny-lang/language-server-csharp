@@ -28,7 +28,7 @@ method Test() {
 }";
       var documentItem = CreateTestDocument(source, TestFilePath);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem, out var document));
+      var document = Documents.GetDocument(documentItem);
       Assert.AreEqual(0, document.Errors.AllMessages[ErrorLevel.Error].Count);
     }
 
@@ -44,7 +44,7 @@ method Test() {
 }";
       var documentItem = CreateTestDocument(source, TestFilePath);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem, out var document));
+      var document = Documents.GetDocument(documentItem);
       Assert.AreEqual(1, document.Errors.AllMessages[ErrorLevel.Error].Count);
     }
   }

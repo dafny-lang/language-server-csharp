@@ -43,11 +43,7 @@ namespace Microsoft.Dafny.LanguageServer.Handlers {
     }
 
     public override Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken) {
-      DafnyDocument? document;
-      if(!_documents.TryGetDocument(request.TextDocument, out document)) {
-        _logger.LogWarning("location requested for unloaded document {}", request.TextDocument.Uri);
-        return Task.FromResult(new CompletionList());
-      }
+      var document = _documents.GetDocument(request.TextDocument);
       return Task.FromResult(new CompletionProcessor(_symbolGuesser, document, request, cancellationToken).Process());
     }
 

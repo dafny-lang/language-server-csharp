@@ -68,7 +68,8 @@ namespace Microsoft.Dafny.LanguageServer.Workspace {
     /// </summary>
     /// <param name="documentId">The ID of the document to resolve.</param>
     /// <param name="document">An instance of the managed document, <c>null</c> if the specified document was not found.</param>
-    /// <returns><c>true</c> if the document was resolved successfully, <c>false</c> otherwise.</returns>
-    bool TryGetDocument(TextDocumentIdentifier documentId, [NotNullWhen(true)] out DafnyDocument? document);
+    /// <returns>The Dafny document with the specified ID.</returns>
+    /// <exception cref="System.Collections.Generic.KeyNotFoundException">Thrown if the specified document does not exist.</exception>
+    DafnyDocument GetDocument(TextDocumentIdentifier documentId);
   }
 }

@@ -29,11 +29,7 @@ namespace Microsoft.Dafny.LanguageServer.Handlers {
     }
 
     public override Task<SignatureHelp> Handle(SignatureHelpParams request, CancellationToken cancellationToken) {
-      DafnyDocument? document;
-      if(!_documents.TryGetDocument(request.TextDocument, out document)) {
-        _logger.LogWarning("location requested for unloaded document {}", request.TextDocument.Uri);
-        return Task.FromResult(new SignatureHelp());
-      }
+      var document = _documents.GetDocument(request.TextDocument);
       return Task.FromResult(new SignatureHelpProcessor(_symbolGuesser, document, request, cancellationToken).Process());
     }
 

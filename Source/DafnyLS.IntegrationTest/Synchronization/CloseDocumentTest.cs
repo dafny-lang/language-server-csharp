@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client;
 using OmniSharp.Extensions.LanguageServer.Protocol.Document;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Microsoft.Dafny.LanguageServer.IntegrationTest.Synchronization {
@@ -31,10 +32,14 @@ function GetConstant(): int {
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
       await CloseDocumentAndWaitAsync(documentItem);
-      Assert.IsFalse(Documents.TryGetDocument(documentItem.Uri, out var document));
+      try {
+        Documents.GetDocument(documentItem.Uri);
+        Assert.Fail("closed document not removed from document database");
+      } catch(KeyNotFoundException) { }
     }
 
     [TestMethod]
+    [ExpectedException(typeof(KeyNotFoundException))]
     public async Task DocumentStaysUnloadedWhenClosed() {
       var source = @"
 function GetConstant(): int {
@@ -42,7 +47,10 @@ function GetConstant(): int {
 }".Trim();
       var documentItem = CreateTestDocument(source);
       await CloseDocumentAndWaitAsync(documentItem);
-      Assert.IsFalse(Documents.TryGetDocument(documentItem.Uri, out var document));
+      try {
+        Documents.GetDocument(documentItem.Uri);
+        Assert.Fail("closed document not removed from document database");
+      } catch(KeyNotFoundException) { }
     }
   }
 }

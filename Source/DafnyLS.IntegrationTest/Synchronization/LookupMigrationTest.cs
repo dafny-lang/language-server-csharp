@@ -51,7 +51,7 @@ class Test {
         new Range((10, 0), (14, 0)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.IsFalse(document.SymbolTable.Resolved);
       Assert.IsTrue(document.SymbolTable.TryGetSymbolAt((7, 10), out var symbol));
       Assert.AreEqual("x", symbol.Name);
@@ -90,7 +90,7 @@ class Test {
         new Range((12, 0), (14, 0)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.IsFalse(document.SymbolTable.Resolved);
       Assert.IsTrue(document.SymbolTable.TryGetSymbolAt((7, 10), out var symbol));
       Assert.AreEqual("x", symbol.Name);
@@ -137,7 +137,7 @@ class Test {
         new Range((10, 0), (14, 0)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.IsFalse(document.SymbolTable.Resolved);
       Assert.IsTrue(document.SymbolTable.TryGetSymbolAt((22, 10), out var symbol));
       Assert.AreEqual("y", symbol.Name);
@@ -176,7 +176,7 @@ class Test {
         new Range((12, 0), (14, 0)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.IsFalse(document.SymbolTable.Resolved);
       Assert.IsTrue(document.SymbolTable.TryGetSymbolAt((16, 10), out var symbol));
       Assert.AreEqual("y", symbol.Name);
@@ -203,7 +203,7 @@ class Test {
         new Range((6, 10), (6, 10)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.IsFalse(document.SymbolTable.Resolved);
       Assert.IsTrue(document.SymbolTable.TryGetSymbolAt((6, 10), out var symbol));
       Assert.AreEqual("x", symbol.Name);
@@ -230,7 +230,7 @@ class Test {
         new Range((6, 4), (6, 9)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.IsFalse(document.SymbolTable.Resolved);
       Assert.IsTrue(document.SymbolTable.TryGetSymbolAt((6, 9), out var symbol));
       Assert.AreEqual("x", symbol.Name);
@@ -252,7 +252,7 @@ class Test {
       var change = "y + ";
       var documentItem = CreateTestDocument(source);
       await Client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var originalDocument));
+      var originalDocument = Documents.GetDocument(documentItem.Uri);
       var lookupCountBefore = originalDocument.SymbolTable.LookupTree.Count;
 
       await ApplyChangeAndWaitCompletionAsync(
@@ -260,7 +260,7 @@ class Test {
         new Range((6, 9), (6, 10)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.IsFalse(document.SymbolTable.Resolved);
       Assert.IsFalse(document.SymbolTable.TryGetSymbolAt((6, 9), out var _));
       Assert.AreEqual(lookupCountBefore - 1, document.SymbolTable.LookupTree.Count);
@@ -298,7 +298,7 @@ class Test {
   "
         }
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.IsFalse(document.SymbolTable.Resolved);
       Assert.IsTrue(document.SymbolTable.TryGetSymbolAt((12, 7), out var symbol));
       Assert.AreEqual("x", symbol.Name);

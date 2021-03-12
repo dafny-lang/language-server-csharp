@@ -34,7 +34,7 @@ function GetConstant(): int {
 }".Trim();
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.AreEqual(0, document.Errors.AllMessages[ErrorLevel.Error].Count);
     }
 
@@ -46,7 +46,7 @@ function GetConstant() int {
 }".Trim();
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.AreEqual(1, document.Errors.AllMessages[ErrorLevel.Error].Count);
       var message = document.Errors.AllMessages[ErrorLevel.Error][0];
       Assert.AreEqual(MessageSource.Parser, message.source);
@@ -60,7 +60,7 @@ function GetConstant(): int {
 }".Trim();
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.AreEqual(1, document.Errors.AllMessages[ErrorLevel.Error].Count);
       var message = document.Errors.AllMessages[ErrorLevel.Error][0];
       Assert.AreEqual(MessageSource.Resolver, message.source);
@@ -78,7 +78,7 @@ method Recurse(x: int) returns (r: int) {
 }".Trim();
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.AreEqual(1, document.Errors.AllMessages[ErrorLevel.Error].Count);
       var message = document.Errors.AllMessages[ErrorLevel.Error][0];
       Assert.AreEqual(MessageSource.Other, message.source);
@@ -99,7 +99,7 @@ method Recurse(x: int) returns (r: int) {
       });
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.AreEqual(0, document.Errors.AllMessages[ErrorLevel.Error].Count);
     }
   }

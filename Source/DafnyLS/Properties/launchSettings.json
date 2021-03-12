@@ -2,6 +2,7 @@
   "profiles": {
     "DafnyLS": {
       "commandName": "Project",
+      "commandLineArgs": "--documents:verify=never",
       "remoteDebugEnabled": false,
       "nativeDebugging": true
     }

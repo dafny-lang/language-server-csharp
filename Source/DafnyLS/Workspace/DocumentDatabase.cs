@@ -98,8 +98,8 @@ namespace Microsoft.Dafny.LanguageServer.Workspace {
       return null;
     }
 
-    public bool TryGetDocument(TextDocumentIdentifier documentId, [NotNullWhen(true)] out DafnyDocument? document) {
-      return _documents.TryGetValue(documentId.Uri, out document);
+    public DafnyDocument GetDocument(TextDocumentIdentifier documentId) {
+      return _documents[documentId.Uri];
     }
   }
 }

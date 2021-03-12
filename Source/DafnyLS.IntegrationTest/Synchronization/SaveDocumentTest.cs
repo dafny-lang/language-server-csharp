@@ -34,9 +34,9 @@ function GetConstant(): int {
 }".Trim();
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var openedDocument));
+      var openedDocument = Documents.GetDocument(documentItem.Uri);
       await _client.SaveDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var savedDocument));
+      var savedDocument = Documents.GetDocument(documentItem.Uri);
       Assert.AreSame(openedDocument, savedDocument);
     }
 
@@ -51,9 +51,9 @@ function GetConstant(): int {
       });
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var openedDocument));
+      var openedDocument = Documents.GetDocument(documentItem.Uri);
       await _client.SaveDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var savedDocument));
+      var savedDocument = Documents.GetDocument(documentItem.Uri);
       Assert.AreSame(openedDocument, savedDocument);
     }
 
@@ -68,9 +68,9 @@ function GetConstant() int {
       });
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var openedDocument));
+      var openedDocument = Documents.GetDocument(documentItem.Uri);
       await _client.SaveDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var savedDocument));
+      var savedDocument = Documents.GetDocument(documentItem.Uri);
       Assert.AreSame(openedDocument, savedDocument);
     }
 
@@ -85,9 +85,9 @@ function GetConstant(): int {
       });
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var openedDocument));
+      var openedDocument = Documents.GetDocument(documentItem.Uri);
       await _client.SaveDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var savedDocument));
+      var savedDocument = Documents.GetDocument(documentItem.Uri);
       Assert.AreSame(openedDocument, savedDocument);
     }
 
@@ -102,9 +102,9 @@ function GetConstant(): int {
       });
       var documentItem = CreateTestDocument(source);
       await _client.OpenDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var openedDocument));
+      var openedDocument = Documents.GetDocument(documentItem.Uri);
       await _client.SaveDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var savedDocument));
+      var savedDocument = Documents.GetDocument(documentItem.Uri);
       Assert.AreNotSame(openedDocument, savedDocument);
     }
 
@@ -120,7 +120,7 @@ method DoIt() {
       var documentItem = CreateTestDocument(source);
       _client.OpenDocument(documentItem);
       await _client.SaveDocumentAndWaitAsync(documentItem, CancellationToken);
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       Assert.AreEqual(1, document.Errors.AllMessages[ErrorLevel.Error].Count);
       var message = document.Errors.AllMessages[ErrorLevel.Error][0];
       Assert.AreEqual(MessageSource.Other, message.source);

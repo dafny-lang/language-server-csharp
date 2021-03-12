@@ -27,11 +27,7 @@ namespace Microsoft.Dafny.LanguageServer.Handlers {
     }
 
     public override Task<LocationOrLocationLinks> Handle(DefinitionParams request, CancellationToken cancellationToken) {
-      DafnyDocument? document;
-      if(!_documents.TryGetDocument(request.TextDocument, out document)) {
-        _logger.LogWarning("location requested for unloaded document {}", request.TextDocument.Uri);
-        return Task.FromResult(new LocationOrLocationLinks());
-      }
+      var document = _documents.GetDocument(request.TextDocument);
       ILocalizableSymbol? symbol;
       if(!document.SymbolTable.TryGetSymbolAt(request.Position, out symbol)) {
         _logger.LogDebug("no symbol was found at {} in {}", request.Position, request.TextDocument);

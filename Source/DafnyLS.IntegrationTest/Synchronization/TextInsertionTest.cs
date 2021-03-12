@@ -25,7 +25,7 @@ function GetConstant2(): int {
         new Range((0, 0), (0, 0)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       var expected = @"
 function GetConstant2(): int {
   2
@@ -56,7 +56,7 @@ function GetConstant2(): int {
         new Range((4, 0), (4, 0)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       var expected = @"
 function GetConstant(): int {
   1
@@ -91,7 +91,7 @@ function GetConstant2(): int {
         new Range((4, 0), (4, 0)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       var expected = @"
 function GetConstant(): int {
   1
@@ -121,7 +121,7 @@ function GetConstant(): int {
         new Range((0, 12), (0, 12)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       var expected = @"
 function GetAnotherConstant(): int {
   1
@@ -147,7 +147,7 @@ function Some";
         new Range((0, 12), (0, 12)),
         change
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       var expected = @"
 function GetIt(): string {
   ""test""
@@ -187,7 +187,7 @@ function SomeConstant(): int {
           Text = "}"
         }
       );
-      Assert.IsTrue(Documents.TryGetDocument(documentItem.Uri, out var document));
+      var document = Documents.GetDocument(documentItem.Uri);
       var expected = @"
 class Test {
   function GetConstant(): int { 1 }

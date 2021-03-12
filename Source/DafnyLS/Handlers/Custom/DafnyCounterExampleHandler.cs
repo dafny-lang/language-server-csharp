@@ -25,11 +25,7 @@ namespace Microsoft.Dafny.LanguageServer.Handlers.Custom {
     }
 
     public Task<CounterExampleList> Handle(CounterExampleParams request, CancellationToken cancellationToken) {
-      DafnyDocument? document;
-      if(!_documents.TryGetDocument(request.TextDocument, out document)) {
-        _logger.LogWarning("counter-examples requested for unloaded document {}", request.TextDocument.Uri);
-        return Task.FromResult(new CounterExampleList());
-      }
+      var document = _documents.GetDocument(request.TextDocument);
       return Task.FromResult(new CounterExampleLoader(_logger, document, cancellationToken).GetCounterExamples());
     }
 
