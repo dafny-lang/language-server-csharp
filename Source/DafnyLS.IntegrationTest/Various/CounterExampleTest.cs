@@ -104,5 +104,27 @@ method Negate(a: int) returns (b: int)
       Assert.IsTrue(counterExamples[1].Variables.ContainsKey("a"));
       Assert.IsTrue(counterExamples[1].Variables.ContainsKey("b"));
     }
+
+    [TestMethod]
+    public async Task GetCounterExampleReturnsCounterExampleForMethodWhichFailsToFulfilPostcondition() {
+      // Issue https://github.com/DafnyVSCode/ide-vscode/issues/25
+      var source = @"
+method test(a: seq<int>) returns (b: seq<int>)
+    ensures |a| >= |b|
+{
+  return b;
+}
+".TrimStart();
+      var documentItem = CreateTestDocument(source);
+      _client.OpenDocument(documentItem);
+      var counterExamples = (await RequestCounterExamples(documentItem.Uri)).ToArray();
+      Assert.AreEqual(2, counterExamples.Length);
+      Assert.AreEqual((2, 0), counterExamples[0].Position);
+      Assert.IsTrue(counterExamples[0].Variables.ContainsKey("a"));
+      Assert.IsTrue(counterExamples[0].Variables.ContainsKey("b"));
+      Assert.AreEqual((3, 10), counterExamples[1].Position);
+      Assert.IsTrue(counterExamples[1].Variables.ContainsKey("a"));
+      Assert.IsTrue(counterExamples[1].Variables.ContainsKey("b"));
+    }
   }
 }
