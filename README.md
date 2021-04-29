@@ -5,6 +5,10 @@
 
 *DafnyLS* is a [language server](https://microsoft.github.io/language-server-protocol/) for [Dafny](https://github.com/dafny-lang/dafny). It is implemented in C# on .NET 5.0 with OmniSharp's [C# Language Server Protocol](https://github.com/OmniSharp/csharp-language-server-protocol).
 
+## Archived
+
+DafnyLS is now part of the [official Dafny repository](https://github.com/dafny-lang/dafny/tree/master/Source/DafnyLanguageServer) and is part of the official compiler [releases](https://github.com/dafny-lang/dafny/releases). Therefore, this repository has been archived, and updates will be provided as a part of Dafny releases.
+
 ## Building
 
 Clone the DafnyLS repo and its submodules.
